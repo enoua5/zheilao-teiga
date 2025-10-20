@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "deploy": "npm run build && touch ./out/.nojekyll",
+    "deploy": "npm run build && touch ./zheilao-teiga/.nojekyll",
     "lint": "eslint",
     "format": "prettier --write app"
   },
