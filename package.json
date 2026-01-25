@@ -8,7 +8,7 @@
     "start": "next start",
     "deploy": "npm run build && touch ./zheilao-teiga/.nojekyll",
     "lint": "eslint",
-    "format": "prettier --write app"
+    "format": "prettier --write app component"
   },
   "dependencies": {
     "@mantine/core": "^8.3.5",
