@@ -12,9 +12,11 @@ import {
     createTheme,
     Group,
     MantineProvider,
+    NavLink,
+    Stack,
     Text,
 } from "@mantine/core";
-import { BrandGithub } from "tabler-icons-react";
+import { Ballpen, BrandGithub, Home as IconHome } from "tabler-icons-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -36,7 +38,7 @@ export default function RootLayout({
                 <MantineProvider theme={theme} defaultColorScheme="auto">
                     <AppShell
                         header={{ height: "5em" }}
-                        navbar={{ breakpoint: "xs", width: "20ch" }}
+                        navbar={{ breakpoint: "xs", width: "25ch" }}
                         padding="sm"
                     >
                         <AppShellHeader>
@@ -61,7 +63,22 @@ export default function RootLayout({
                                 </ButtonGroup>
                             </Group>
                         </AppShellHeader>
-                        <AppShellNavbar></AppShellNavbar>
+                        <AppShellNavbar>
+                            <Stack gap={0}>
+                                <NavLink
+                                    component={Link}
+                                    label="Home"
+                                    href="/"
+                                    leftSection={<IconHome />}
+                                />
+                                <NavLink
+                                    component={Link}
+                                    label="Tezago text renderer"
+                                    href="/text-rendering"
+                                    leftSection={<Ballpen />}
+                                />
+                            </Stack>
+                        </AppShellNavbar>
                         <AppShellMain>{children}</AppShellMain>
                     </AppShell>
                 </MantineProvider>
