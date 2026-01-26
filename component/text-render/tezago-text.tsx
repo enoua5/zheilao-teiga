@@ -1,6 +1,12 @@
 "use client";
 
-import React, { RefObject, useCallback, useEffect, useRef } from "react";
+import React, {
+    RefObject,
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import { renderTezago } from "./render-tezago";
 
 export interface TezagoTextProps {
@@ -11,21 +17,27 @@ export interface TezagoTextProps {
  * Tezago text-rendering box
  */
 export default function TezagoText({ text }: TezagoTextProps) {
-    const canvas_ref: RefObject<HTMLCanvasElement | null> = useRef(null);
+    const image_ref: RefObject<HTMLImageElement | null> = useRef(null);
+    const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
 
-    const renderCanvasRef = useCallback(
-        (canvas: HTMLCanvasElement | null) => {
-            canvas_ref.current = canvas;
-            if (canvas) {
+    useEffect(() => setCanvas(document.createElement("canvas")), []);
+
+    const renderImageRef = useCallback(
+        (image: HTMLImageElement | null) => {
+            image_ref.current = image;
+            if (image && canvas) {
                 renderTezago(canvas, text);
+                image.src = canvas.toDataURL();
+                image.alt = text;
             }
         },
-        [text]
+        [canvas, text]
     );
 
     useEffect(() => {
-        renderCanvasRef(canvas_ref.current);
-    }, [renderCanvasRef]);
+        renderImageRef(image_ref.current);
+    }, [renderImageRef]);
 
-    return <canvas ref={renderCanvasRef}></canvas>;
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img ref={renderImageRef} src="#" alt="" />;
 }
