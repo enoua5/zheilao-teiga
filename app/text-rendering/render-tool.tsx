@@ -1,7 +1,7 @@
 "use client";
 
 import TezagoText from "@/component/text-render/tezago-text";
-import { Stack, TextInput } from "@mantine/core";
+import { Box, Stack, TextInput } from "@mantine/core";
 import { useState } from "react";
 
 export default function TezagoTextRenderTool() {
@@ -9,7 +9,9 @@ export default function TezagoTextRenderTool() {
 
     return (
         <Stack>
-            <TezagoText text={text} />
+            <Box>
+                <TezagoText text={text} />
+            </Box>
             <TextInput
                 label="Text to render"
                 value={text}
