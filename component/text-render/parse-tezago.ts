@@ -39,8 +39,10 @@ export interface UnparseableTezagoWordPart {
     raw: string;
 }
 
+export type TezagoCharacter = TezagoSyllable | UnparseableTezagoWordPart;
+
 export interface TezagoWord {
-    syllables: (TezagoSyllable | UnparseableTezagoWordPart)[];
+    syllables: TezagoCharacter[];
 }
 
 const allowed_unvoiced_consonant: Set<TezagoUnvoicedConsonant> = new Set([
