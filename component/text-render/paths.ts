@@ -602,6 +602,20 @@ const vowel_part_data: Record<
     },
 };
 
+function getYPath(full_height: boolean): Path2D {
+        const { top, bottom, left, right } = getConsonantPointInfo(
+            0,
+            1,
+            full_height
+        );
+        const path = new Path2D();
+        const letter_top = top * 0.7 + bottom * 0.3;
+        const letter_bottom = top * 0.3 + bottom * 0.7;
+        path.moveTo((right * 1.2 + left * -0.2), letter_top);
+        path.lineTo(left * 0.2 + right * 0.8, letter_bottom);
+        return path;
+}
+
 class TezagoPathBuilder {
     drawTofu() {
         const path = new Path2D();
@@ -626,20 +640,33 @@ class TezagoPathBuilder {
         }
 
         const path = new Path2D();
+
+        const base_parts = [...char.consonant_base_parts];
+        let y_mark = false;
+        if(base_parts[base_parts.length - 1] == "Y") {
+            y_mark = true;
+            base_parts.splice(-1);
+        }
+
         for (
             let part_number = 0;
-            part_number < char.consonant_base_parts.length;
+            part_number < base_parts.length;
             part_number++
         ) {
-            const part = char.consonant_base_parts[part_number];
+            const part = base_parts[part_number];
             path.addPath(
                 consonant_part_data[part](
                     part_number,
-                    char.consonant_base_parts.length,
+                    base_parts.length,
                     full_height
                 )
             );
         }
+
+        if(y_mark) {
+            path.addPath(getYPath(full_height));
+        }
+
         return path;
     }
 
