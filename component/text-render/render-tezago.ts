@@ -79,6 +79,9 @@ export function renderTezago(
 
     ctx.lineWidth = line_thickness;
     ctx.strokeStyle = options?.color ?? "black";
+    // ctx.lineCap = "square"
+    ctx.lineCap = "round";
+    // ctx.lineCap = "butt"
 
     // We'll iterate through it, keeping track of where we're drawing each character
     let x_pos = padding;

@@ -8,8 +8,7 @@ import {
 } from "./parse-tezago";
 
 const full_char_data: Map<string, undefined | (() => Path2D)> = new Map(
-    Object.entries({
-    })
+    Object.entries({})
 );
 
 const full_consonant_data: Map<
@@ -26,14 +25,19 @@ function getConsonantPointInfo(
     part_number: number,
     total_parts: number,
     full_height: boolean
-): {top: number, bottom: number, left: number, right: number, middle: number} {
+): {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+    middle: number;
+} {
     const top = 5;
     const bottom = full_height ? 25 : 15;
-    const left = 10 * part_number / total_parts;
-    const right = 10 * (part_number + 1) / total_parts;
+    const left = (10 * part_number) / total_parts;
+    const right = (10 * (part_number + 1)) / total_parts;
     const middle = (right + left) / 2;
-    return {top, bottom, left, right, middle};
-
+    return { top, bottom, left, right, middle };
 }
 
 const consonant_part_data: Record<
@@ -45,16 +49,40 @@ const consonant_part_data: Record<
         total_parts: number,
         full_height: boolean
     ): Path2D {
-        const {top, bottom, left, right, middle} = getConsonantPointInfo(part_number, total_parts, full_height);
+        const { top, bottom, left, right, middle } = getConsonantPointInfo(
+            part_number,
+            total_parts,
+            full_height
+        );
 
         const path = new Path2D();
         path.moveTo(middle, top);
-        path.bezierCurveTo(middle, (top + bottom) * 0.6, left, bottom, left, bottom);
+        path.bezierCurveTo(
+            middle,
+            (top + bottom) * 0.6,
+            left,
+            bottom,
+            left,
+            bottom
+        );
         path.moveTo(middle, top);
-        path.bezierCurveTo(middle, (top + bottom) * 0.6, right, bottom, right, bottom);
+        path.bezierCurveTo(
+            middle,
+            (top + bottom) * 0.6,
+            right,
+            bottom,
+            right,
+            bottom
+        );
         // circle
         const circle = new Path2D();
-        circle.arc(middle, (top * 0.22 + bottom * 0.78), 1.2 / total_parts, 0, Math.PI * 2);
+        circle.arc(
+            middle,
+            top * 0.22 + bottom * 0.78,
+            1.2 / total_parts,
+            0,
+            Math.PI * 2
+        );
         path.addPath(circle);
         return path;
     },
@@ -63,13 +91,31 @@ const consonant_part_data: Record<
         total_parts: number,
         full_height: boolean
     ): Path2D {
-        const {top, bottom, left, right, middle} = getConsonantPointInfo(part_number, total_parts, full_height);
+        const { top, bottom, left, right, middle } = getConsonantPointInfo(
+            part_number,
+            total_parts,
+            full_height
+        );
 
         const path = new Path2D();
         path.moveTo(middle, top);
-        path.bezierCurveTo(middle, (top * 0.4 + bottom * 0.6), left, bottom, left, bottom);
+        path.bezierCurveTo(
+            middle,
+            top * 0.4 + bottom * 0.6,
+            left,
+            bottom,
+            left,
+            bottom
+        );
         path.moveTo(middle, top);
-        path.bezierCurveTo(middle, (top * 0.4 + bottom * 0.6), right, bottom, right, bottom);
+        path.bezierCurveTo(
+            middle,
+            top * 0.4 + bottom * 0.6,
+            right,
+            bottom,
+            right,
+            bottom
+        );
         return path;
     },
     K: function (
@@ -77,9 +123,19 @@ const consonant_part_data: Record<
         total_parts: number,
         full_height: boolean
     ): Path2D {
-        const {top, bottom, left, right, middle} = getConsonantPointInfo(part_number, total_parts, full_height);
+        const { top, bottom, left, right, middle } = getConsonantPointInfo(
+            part_number,
+            total_parts,
+            full_height
+        );
         const path = new Path2D();
-        path.arc(middle, (top + bottom) / 2, (right - left) * 0.35, 0, Math.PI * 2);
+        path.arc(
+            middle,
+            (top + bottom) / 2,
+            (right - left) * 0.35,
+            0,
+            Math.PI * 2
+        );
         return path;
     },
     L: function (
@@ -87,7 +143,11 @@ const consonant_part_data: Record<
         total_parts: number,
         full_height: boolean
     ): Path2D {
-        const {top, bottom, left, right, middle} = getConsonantPointInfo(part_number, total_parts, full_height);
+        const { top, bottom, left, right, middle } = getConsonantPointInfo(
+            part_number,
+            total_parts,
+            full_height
+        );
         const bar_height = (top + bottom) * 0.5;
         const line_offset = (middle - left) * 0.4;
         const path = new Path2D();
@@ -104,7 +164,11 @@ const consonant_part_data: Record<
         total_parts: number,
         full_height: boolean
     ): Path2D {
-        const {top, bottom, left, right, middle} = getConsonantPointInfo(part_number, total_parts, full_height);
+        const { top, bottom, left, right, middle } = getConsonantPointInfo(
+            part_number,
+            total_parts,
+            full_height
+        );
         const bar_height = (top + bottom) * 0.5;
         const path = new Path2D();
         path.moveTo(middle, top);
@@ -118,14 +182,25 @@ const consonant_part_data: Record<
         total_parts: number,
         full_height: boolean
     ): Path2D {
-        const {top, bottom, left, right, middle} = getConsonantPointInfo(part_number, total_parts, full_height);
+        const { top, bottom, left, right, middle } = getConsonantPointInfo(
+            part_number,
+            total_parts,
+            full_height
+        );
         const path = new Path2D();
-        const drop_point = (top * 0.7 + bottom * 0.3);
-        const circle_top = (drop_point * 0.9 + bottom * 0.1);
+        const drop_point = top * 0.7 + bottom * 0.3;
+        const circle_top = drop_point * 0.9 + bottom * 0.1;
         const circle_middle = (circle_top + bottom) / 2;
 
         path.moveTo(left, top);
-        path.bezierCurveTo(left, drop_point, middle, drop_point, middle, drop_point);
+        path.bezierCurveTo(
+            left,
+            drop_point,
+            middle,
+            drop_point,
+            middle,
+            drop_point
+        );
         path.bezierCurveTo(right, drop_point, right, top, right, top);
         path.moveTo(middle, drop_point);
         path.ellipse(
@@ -135,9 +210,8 @@ const consonant_part_data: Record<
             middle - left,
             Math.PI * 1.5,
             0,
-            Math.PI * 2,
-
-        )
+            Math.PI * 2
+        );
         return path;
     },
     S: function (
@@ -145,7 +219,11 @@ const consonant_part_data: Record<
         total_parts: number,
         full_height: boolean
     ): Path2D {
-        const {top, bottom, left, right} = getConsonantPointInfo(part_number, total_parts, full_height);
+        const { top, bottom, left, right } = getConsonantPointInfo(
+            part_number,
+            total_parts,
+            full_height
+        );
         const bar_height = (top + bottom) * 0.5;
         const path = new Path2D();
         path.moveTo(left, bar_height);
@@ -157,7 +235,11 @@ const consonant_part_data: Record<
         total_parts: number,
         full_height: boolean
     ): Path2D {
-        const {top, bottom, left, right} = getConsonantPointInfo(part_number, total_parts, full_height);
+        const { top, bottom, left, right } = getConsonantPointInfo(
+            part_number,
+            total_parts,
+            full_height
+        );
         const path = new Path2D();
         path.moveTo(left, top);
         path.lineTo(right, top);
@@ -169,13 +251,17 @@ const consonant_part_data: Record<
         total_parts: number,
         full_height: boolean
     ): Path2D {
-        const {top, bottom, left, right, middle} = getConsonantPointInfo(part_number, total_parts, full_height);
+        const { top, bottom, left, right, middle } = getConsonantPointInfo(
+            part_number,
+            total_parts,
+            full_height
+        );
 
         const y_middle = (top + bottom) / 2;
-        const letter_top = (top * 0.5 + y_middle * 0.5);
-        const letter_bottom = (bottom * 0.5 + y_middle * 0.5);
-        const letter_left = (left * 0.7 + middle * 0.3);
-        const letter_right = (right * 0.7 + middle * 0.3);
+        const letter_top = top * 0.5 + y_middle * 0.5;
+        const letter_bottom = bottom * 0.5 + y_middle * 0.5;
+        const letter_left = left * 0.7 + middle * 0.3;
+        const letter_right = right * 0.7 + middle * 0.3;
 
         const path = new Path2D();
         path.moveTo(middle, letter_top);
@@ -189,19 +275,22 @@ const consonant_part_data: Record<
         total_parts: number,
         full_height: boolean
     ): Path2D {
-        const {top, bottom, left, right, middle} = getConsonantPointInfo(part_number, total_parts, full_height);
+        const { top, bottom, left, right, middle } = getConsonantPointInfo(
+            part_number,
+            total_parts,
+            full_height
+        );
         const path = new Path2D();
-        if(part_number == 0) {
-            const letter_top = (top * 0.8 + bottom * 0.2);
-            const letter_bottom = (top * 0.2 + bottom * 0.8);
+        if (part_number == 0) {
+            const letter_top = top * 0.8 + bottom * 0.2;
+            const letter_bottom = top * 0.2 + bottom * 0.8;
             path.moveTo(middle, letter_top);
             path.lineTo(middle, letter_bottom);
-        }
-        else {
-            const letter_top = (top * 0.8 + bottom * 0.2);
-            const letter_bottom = (top * 0.4 + bottom * 0.6);
+        } else {
+            const letter_top = top * 0.8 + bottom * 0.2;
+            const letter_bottom = top * 0.4 + bottom * 0.6;
             path.moveTo(right, letter_top);
-            path.lineTo((left * 0.8 + right * 0.2), letter_bottom);
+            path.lineTo(left * 0.8 + right * 0.2, letter_bottom);
         }
         return path;
     },
@@ -211,16 +300,20 @@ function getVowelPointInfo(
     part_number: number,
     total_parts: number,
     full_height: boolean
-): {top: number, bottom: number, left: number, right: number, middle: number} {
+): {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+    middle: number;
+} {
     const top = full_height ? 5 : 15;
     const bottom = 25;
-    const left = 10 * part_number / total_parts;
-    const right = 10 * (part_number + 1) / total_parts;
+    const left = (10 * part_number) / total_parts;
+    const right = (10 * (part_number + 1)) / total_parts;
     const middle = (right + left) / 2;
-    return {top, bottom, left, right, middle};
-
+    return { top, bottom, left, right, middle };
 }
-
 
 const vowel_part_data: Record<
     TezagoVowel,
@@ -231,15 +324,32 @@ const vowel_part_data: Record<
         total_parts: number,
         full_height: boolean
     ): Path2D {
-        const {top, bottom, left, right} = getVowelPointInfo(part_number, total_parts, full_height);
+        const { top, bottom, left, right } = getVowelPointInfo(
+            part_number,
+            total_parts,
+            full_height
+        );
         const path = new Path2D();
         path.moveTo(left, top);
         path.lineTo(right, top);
         path.lineTo(right, bottom);
         return path;
     },
-    Æ: function () : Path2D {
+    Æ: function (
+        part_number: number,
+        total_parts: number,
+        full_height: boolean
+    ): Path2D {
+        const { top, bottom, left, right } = getVowelPointInfo(
+            part_number,
+            total_parts,
+            full_height
+        );
         const path = new Path2D();
+        path.moveTo(left, top);
+        path.lineTo(right, top);
+        path.moveTo(left, top);
+        path.lineTo(left, bottom);
         return path;
     },
     E: function (
@@ -247,7 +357,31 @@ const vowel_part_data: Record<
         total_parts: number,
         full_height: boolean
     ): Path2D {
+        const { top, bottom, left, right, middle } = getVowelPointInfo(
+            part_number,
+            total_parts,
+            full_height
+        );
+
         const path = new Path2D();
+        path.moveTo(middle, top);
+        path.bezierCurveTo(
+            middle,
+            top * 0.4 + bottom * 0.6,
+            left,
+            bottom,
+            left,
+            bottom
+        );
+        path.moveTo(middle, top);
+        path.bezierCurveTo(
+            middle,
+            top * 0.4 + bottom * 0.6,
+            right,
+            bottom,
+            right,
+            bottom
+        );
         return path;
     },
     I: function (
@@ -255,7 +389,17 @@ const vowel_part_data: Record<
         total_parts: number,
         full_height: boolean
     ): Path2D {
+        const { top, bottom, left, right } = getVowelPointInfo(
+            part_number,
+            total_parts,
+            full_height
+        );
         const path = new Path2D();
+        path.moveTo(left, top);
+        path.lineTo(right, top);
+        path.moveTo(left, top);
+        path.lineTo(left, bottom);
+        path.lineTo(right, bottom);
         return path;
     },
     O: function (
@@ -263,7 +407,53 @@ const vowel_part_data: Record<
         total_parts: number,
         full_height: boolean
     ): Path2D {
+        const { top, bottom, left, right, middle } = getVowelPointInfo(
+            part_number,
+            total_parts,
+            full_height
+        );
+
+        const touch_x = left * 0.65 + right * 0.35;
+        const y_inflect = top * 0.5 + bottom * 0.5;
+        const tail_inflect_x = left * 0.3 + right * 0.7;
+        const tail_inflect_y = top * 0.3 + bottom * 0.7;
+
         const path = new Path2D();
+        path.moveTo(middle, top);
+        path.bezierCurveTo(
+            middle,
+            y_inflect,
+            middle,
+            y_inflect,
+            middle,
+            y_inflect
+        );
+        path.bezierCurveTo(middle, bottom, middle, bottom, touch_x, bottom);
+        path.bezierCurveTo(
+            left * 0.6 + right * 0.4,
+            bottom,
+            left,
+            bottom * 0.9 + top * 0.1,
+            left,
+            y_inflect
+        );
+        path.bezierCurveTo(
+            left,
+            bottom * 0.4 + top * 0.6,
+            middle * 0.1 + left * 0.9,
+            top,
+            middle,
+            top
+        );
+        path.bezierCurveTo(
+            right,
+            top,
+            middle,
+            y_inflect,
+            tail_inflect_x,
+            tail_inflect_y
+        );
+        path.bezierCurveTo(right, bottom, middle, y_inflect, right, bottom);
         return path;
     },
     U: function (
@@ -271,7 +461,17 @@ const vowel_part_data: Record<
         total_parts: number,
         full_height: boolean
     ): Path2D {
+        const { top, bottom, left, right } = getVowelPointInfo(
+            part_number,
+            total_parts,
+            full_height
+        );
         const path = new Path2D();
+        path.moveTo(left, top);
+        path.lineTo(right, top);
+        path.lineTo(right, bottom);
+        path.moveTo(left, bottom);
+        path.lineTo(right, bottom);
         return path;
     },
 };
