@@ -89,7 +89,26 @@ const full_char_data: Map<string, undefined | (() => Path2D)> = new Map(
 const full_consonant_data: Map<
     string,
     undefined | ((full_height: boolean) => Path2D)
-> = new Map(Object.entries({}));
+> = new Map(
+    Object.entries({
+        TS: function (full_height: boolean): Path2D {
+            const { top, bottom, left, right } = getConsonantPointInfo(
+                0,
+                1,
+                full_height
+            );
+            const bar_offset = (right - left) * 0.2;
+            const bar_height = (top + bottom) * 0.5;
+            const path = new Path2D();
+            path.moveTo(left, top);
+            path.lineTo(right, top);
+            path.lineTo(right, bottom);
+            path.moveTo(left + bar_offset, bar_height);
+            path.lineTo(right - bar_offset, bar_height);
+            return path;
+        },
+    })
+);
 
 const full_vowel_data: Map<
     string,
@@ -603,17 +622,17 @@ const vowel_part_data: Record<
 };
 
 function getYPath(full_height: boolean): Path2D {
-        const { top, bottom, left, right } = getConsonantPointInfo(
-            0,
-            1,
-            full_height
-        );
-        const path = new Path2D();
-        const letter_top = top * 0.7 + bottom * 0.3;
-        const letter_bottom = top * 0.3 + bottom * 0.7;
-        path.moveTo((right * 1.2 + left * -0.2), letter_top);
-        path.lineTo(left * 0.2 + right * 0.8, letter_bottom);
-        return path;
+    const { top, bottom, left, right } = getConsonantPointInfo(
+        0,
+        1,
+        full_height
+    );
+    const path = new Path2D();
+    const letter_top = top * 0.7 + bottom * 0.3;
+    const letter_bottom = top * 0.3 + bottom * 0.7;
+    path.moveTo(right * 1.2 + left * -0.2, letter_top);
+    path.lineTo(left * 0.2 + right * 0.8, letter_bottom);
+    return path;
 }
 
 class TezagoPathBuilder {
@@ -643,7 +662,7 @@ class TezagoPathBuilder {
 
         const base_parts = [...char.consonant_base_parts];
         let y_mark = false;
-        if(base_parts[base_parts.length - 1] == "Y") {
+        if (base_parts[base_parts.length - 1] == "Y") {
             y_mark = true;
             base_parts.splice(-1);
         }
@@ -663,7 +682,7 @@ class TezagoPathBuilder {
             );
         }
 
-        if(y_mark) {
+        if (y_mark) {
             path.addPath(getYPath(full_height));
         }
 
