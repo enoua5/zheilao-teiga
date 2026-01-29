@@ -37,7 +37,7 @@ export default function TezagoText({ text, ...options }: TezagoTextProps) {
                 image.alt = text;
             }
         },
-        [canvas, options, text]
+        [canvas, color, options, text]
     );
 
     useEffect(() => {
@@ -45,5 +45,5 @@ export default function TezagoText({ text, ...options }: TezagoTextProps) {
     }, [renderImageRef]);
 
     // eslint-disable-next-line @next/next/no-img-element
-    return <img ref={renderImageRef} src="#" alt="" />;
+    return <img ref={renderImageRef} src="#" alt="" style={{display: "inline", height: 16}} />;
 }

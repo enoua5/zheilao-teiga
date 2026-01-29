@@ -46,7 +46,7 @@ export function renderTezago(
     const char_height =
         options?.char_height ??
         (options?.char_width ? options.char_width * 2.5 : 90);
-    const char_width = options?.char_width ?? char_height / 2.5;
+    const char_width = options?.char_width ?? char_height / 2;
     const syllable_spacing = options?.syllable_spacing ?? char_width * 0.2;
     const word_spacing = options?.word_spacing ?? syllable_spacing * 5;
     const line_thickness = options?.line_thickness ?? 1;

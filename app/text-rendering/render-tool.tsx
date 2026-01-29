@@ -10,7 +10,7 @@ export default function TezagoTextRenderTool() {
     return (
         <Stack>
             <Box>
-                <TezagoText text={text} />
+                Test <TezagoText text={text} line_thickness={1.5} char_height={256} />
             </Box>
             <TextInput
                 label="Text to render"
