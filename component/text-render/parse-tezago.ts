@@ -21,7 +21,7 @@ export type TezagoVoicedConsonant =
     | "X"
     | "W";
 export type TezagoConsonant = TezagoUnvoicedConsonant | TezagoVoicedConsonant;
-export type TezagoVowel = "A" | "E" | "I" | "O" | "U";
+export type TezagoVowel = "A" | "Æ" | "E" | "I" | "O" | "U";
 
 export interface TezagoSyllable {
     parsable: true;
@@ -72,7 +72,7 @@ const allowed_voiced_consonant: Set<TezagoVoicedConsonant> = new Set([
 const allowed_consonant: Set<TezagoConsonant> = allowed_voiced_consonant.union(
     allowed_unvoiced_consonant
 );
-const allowed_vwl = new Set<TezagoVowel>(["A", "E", "I", "O", "U"]);
+const allowed_vwl = new Set<TezagoVowel>(["A", "Æ", "E", "I", "O", "U"]);
 
 function isVoicedConsonant(char: string): char is TezagoVoicedConsonant {
     return (allowed_voiced_consonant as Set<string>).has(char);
@@ -132,6 +132,7 @@ const VOICED_TO_UNVOICED: {
  *
  * Vowels
  * - A
+ * - Æ
  * - E
  * - I
  * - O

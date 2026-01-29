@@ -145,7 +145,7 @@ const consonant_part_data: Record<
         total_parts: number,
         full_height: boolean
     ): Path2D {
-        const {top, bottom, left, right, middle} = getConsonantPointInfo(part_number, total_parts, full_height);
+        const {top, bottom, left, right} = getConsonantPointInfo(part_number, total_parts, full_height);
         const bar_height = (top + bottom) * 0.5;
         const path = new Path2D();
         path.moveTo(left, bar_height);
@@ -236,6 +236,10 @@ const vowel_part_data: Record<
         path.moveTo(left, top);
         path.lineTo(right, top);
         path.lineTo(right, bottom);
+        return path;
+    },
+    Æ: function () : Path2D {
+        const path = new Path2D();
         return path;
     },
     E: function (
