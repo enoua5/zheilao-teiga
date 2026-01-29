@@ -662,7 +662,7 @@ class TezagoPathBuilder {
 
         const base_parts = [...char.consonant_base_parts];
         let y_mark = false;
-        if (base_parts[base_parts.length - 1] == "Y") {
+        if (base_parts.length > 1 && base_parts[base_parts.length - 1] == "Y") {
             y_mark = true;
             base_parts.splice(-1);
         }
