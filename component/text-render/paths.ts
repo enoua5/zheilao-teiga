@@ -16,10 +16,52 @@ const full_consonant_data: Map<
     undefined | ((full_height: boolean) => Path2D)
 > = new Map(Object.entries({}));
 
+
 const full_vowel_data: Map<
     string,
     undefined | ((full_height: boolean) => Path2D)
-> = new Map(Object.entries({}));
+> = new Map(Object.entries({
+    EI: (full_height: boolean): Path2D => {
+        const path = new Path2D();
+        const {top, bottom, left, right, middle} = getVowelPointInfo(0, 1, full_height);
+        const line_offset = 2;
+
+        path.moveTo(middle - line_offset, top);
+        path.bezierCurveTo(
+            middle - line_offset,
+            top * 0.4 + bottom * 0.6,
+            left,
+            bottom,
+            left,
+            bottom
+        );
+        path.moveTo(middle, top);
+        path.lineTo(middle, bottom);
+        path.moveTo(middle + line_offset, top);
+        path.bezierCurveTo(
+            middle + line_offset,
+            top * 0.4 + bottom * 0.6,
+            right,
+            bottom,
+            right,
+            bottom
+        );
+        return path;
+    },
+    AO: (full_height: boolean): Path2D => {
+        const {top, bottom, left, right, middle} = getVowelPointInfo(0, 1, full_height);
+        const y_middle = (top * 0.5 + bottom * 0.5)
+        const path = new Path2D();
+        path.moveTo(left, top);
+        path.lineTo(left, bottom);
+        path.moveTo(left, top);
+        path.lineTo(right, top);
+        path.bezierCurveTo(right, y_middle, right, bottom, middle, bottom);
+        path.bezierCurveTo(left, bottom, left, top, middle, y_middle);
+        path.lineTo(right, bottom);
+        return path;
+    }
+}));
 
 function getConsonantPointInfo(
     part_number: number,
