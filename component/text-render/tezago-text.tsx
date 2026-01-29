@@ -20,8 +20,8 @@ export interface TezagoTextProps extends TezagoRenderOptions {
 export default function TezagoText({ text, ...options }: TezagoTextProps) {
     const image_ref: RefObject<HTMLImageElement | null> = useRef(null);
     const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
-    const dark_mode = useComputedColorScheme('light') == "dark";
-    const color = options.color ?? dark_mode ? "white" : "black";
+    const dark_mode = useComputedColorScheme("light") == "dark";
+    const color = (options.color ?? dark_mode) ? "white" : "black";
 
     useEffect(() => setCanvas(document.createElement("canvas")), []);
 
@@ -29,14 +29,10 @@ export default function TezagoText({ text, ...options }: TezagoTextProps) {
         (image: HTMLImageElement | null) => {
             image_ref.current = image;
             if (image && canvas) {
-                renderTezago(
-                    canvas,
-                    text,
-                    {
-                        ...options,
-                        color,
-                    }
-                );
+                renderTezago(canvas, text, {
+                    ...options,
+                    color,
+                });
                 image.src = canvas.toDataURL();
                 image.alt = text;
             }
