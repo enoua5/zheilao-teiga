@@ -8,7 +8,82 @@ import {
 } from "./parse-tezago";
 
 const full_char_data: Map<string, undefined | (() => Path2D)> = new Map(
-    Object.entries({})
+    Object.entries({
+        TE: (): Path2D => {
+            const path = new Path2D();
+            const { top, bottom, left, right, middle } = getConsonantPointInfo(
+                0,
+                1,
+                true
+            );
+            path.moveTo(left, top);
+            path.lineTo(right, top);
+            path.bezierCurveTo(
+                right,
+                top * 0.6 + bottom * 0.4,
+                left,
+                top * 0.4 + bottom * 0.6,
+                left,
+                bottom
+            );
+            path.moveTo(middle, top * 0.5 + bottom * 0.5);
+            path.bezierCurveTo(
+                middle,
+                top * 0.4 + bottom * 0.6,
+                middle,
+                bottom,
+                right,
+                bottom
+            );
+            return path;
+        },
+        TO: (): Path2D => {
+            const path = new Path2D();
+
+            const { top: real_top } = getConsonantPointInfo(0, 1, true);
+
+            const { top, bottom, left, right, middle } = getVowelPointInfo(
+                0,
+                1,
+                false
+            );
+
+            const touch_x = left * 0.65 + right * 0.35;
+            const y_inflect = top * 0.5 + bottom * 0.5;
+            const tail_inflect_x = left * 0.3 + right * 0.7;
+            const tail_inflect_y = top * 0.3 + bottom * 0.7;
+
+            path.moveTo(left, real_top);
+            path.lineTo(right, real_top);
+            path.bezierCurveTo(middle, bottom, right, bottom, touch_x, bottom);
+            path.bezierCurveTo(
+                left * 0.6 + right * 0.4,
+                bottom,
+                left,
+                bottom * 0.9 + top * 0.1,
+                left,
+                y_inflect
+            );
+            path.bezierCurveTo(
+                left,
+                bottom * 0.4 + top * 0.6,
+                middle * 0.1 + left * 0.9,
+                top,
+                middle,
+                top
+            );
+            path.bezierCurveTo(
+                right,
+                top,
+                middle,
+                y_inflect,
+                tail_inflect_x,
+                tail_inflect_y
+            );
+            path.bezierCurveTo(right, bottom, middle, y_inflect, right, bottom);
+            return path;
+        },
+    })
 );
 
 const full_consonant_data: Map<
@@ -16,52 +91,61 @@ const full_consonant_data: Map<
     undefined | ((full_height: boolean) => Path2D)
 > = new Map(Object.entries({}));
 
-
 const full_vowel_data: Map<
     string,
     undefined | ((full_height: boolean) => Path2D)
-> = new Map(Object.entries({
-    EI: (full_height: boolean): Path2D => {
-        const path = new Path2D();
-        const {top, bottom, left, right, middle} = getVowelPointInfo(0, 1, full_height);
-        const line_offset = 2;
+> = new Map(
+    Object.entries({
+        EI: (full_height: boolean): Path2D => {
+            const path = new Path2D();
+            const { top, bottom, left, right, middle } = getVowelPointInfo(
+                0,
+                1,
+                full_height
+            );
+            const line_offset = 2;
 
-        path.moveTo(middle - line_offset, top);
-        path.bezierCurveTo(
-            middle - line_offset,
-            top * 0.4 + bottom * 0.6,
-            left,
-            bottom,
-            left,
-            bottom
-        );
-        path.moveTo(middle, top);
-        path.lineTo(middle, bottom);
-        path.moveTo(middle + line_offset, top);
-        path.bezierCurveTo(
-            middle + line_offset,
-            top * 0.4 + bottom * 0.6,
-            right,
-            bottom,
-            right,
-            bottom
-        );
-        return path;
-    },
-    AO: (full_height: boolean): Path2D => {
-        const {top, bottom, left, right, middle} = getVowelPointInfo(0, 1, full_height);
-        const y_middle = (top * 0.5 + bottom * 0.5)
-        const path = new Path2D();
-        path.moveTo(left, top);
-        path.lineTo(left, bottom);
-        path.moveTo(left, top);
-        path.lineTo(right, top);
-        path.bezierCurveTo(right, y_middle, right, bottom, middle, bottom);
-        path.bezierCurveTo(left, bottom, left, top, middle, y_middle);
-        path.lineTo(right, bottom);
-        return path;
-    }
-}));
+            path.moveTo(middle - line_offset, top);
+            path.bezierCurveTo(
+                middle - line_offset,
+                top * 0.4 + bottom * 0.6,
+                left,
+                bottom,
+                left,
+                bottom
+            );
+            path.moveTo(middle, top);
+            path.lineTo(middle, bottom);
+            path.moveTo(middle + line_offset, top);
+            path.bezierCurveTo(
+                middle + line_offset,
+                top * 0.4 + bottom * 0.6,
+                right,
+                bottom,
+                right,
+                bottom
+            );
+            return path;
+        },
+        AO: (full_height: boolean): Path2D => {
+            const { top, bottom, left, right, middle } = getVowelPointInfo(
+                0,
+                1,
+                full_height
+            );
+            const y_middle = top * 0.5 + bottom * 0.5;
+            const path = new Path2D();
+            path.moveTo(left, top);
+            path.lineTo(left, bottom);
+            path.moveTo(left, top);
+            path.lineTo(right, top);
+            path.bezierCurveTo(right, y_middle, right, bottom, middle, bottom);
+            path.bezierCurveTo(left, bottom, left, top, middle, y_middle);
+            path.lineTo(right, bottom);
+            return path;
+        },
+    })
+);
 
 function getConsonantPointInfo(
     part_number: number,
